@@ -22,43 +22,50 @@ let allWagesFor = function () {
 }
 
 function createEmployeeRecord(employee) {
-    let employeeRecord = {}
-    employeeRecord.firstName = employee[0]
-    employeeRecord.familyName = employee[1]
-    employeeRecord.title = employee[2]
-    employeeRecord.payPerHour = employee[3]
-    employeeRecord.timeInEvents = []
-    employeeRecord.timeOutEvents = []
-    return employeeRecord
+    return {
+        firstName: employee[0],
+        familyName: employee[1],
+        title: employee[2],
+        payPerHour: employee[3],
+        timeInEvents: [],
+        timeOutEvents: []
+    }
+    // just return an object, and you can save what it returns
 }
 
 function createEmployeeRecords(employees) {
     return employees.map(e => createEmployeeRecord(e))
 }
 
-let createTimeInEvent = function (date) {
-    let timeInEvent = {}
-    timeInEvent.type = "TimeIn"
-    timeInEvent.hour = parseInt(date.split(' ')[1])
-    timeInEvent.date = date.split(' ')[0]
-    this.timeInEvents.push(timeInEvent)
+let createTimeInEvent = function (dateStamp) {
+    // you'll get a 'duplicate declaration' error if both the param and a var w/in function share same name
+    let [date, hour] = dateStamp.split(' ')
+
+    this.timeInEvents.push({
+        type: "TimeIn",
+        hour: parseInt(hour, 10),
+        date: date
+    }) // DON'T DO DOUBLE WORK. Just return a function you can save, instead of saving an object within the function, which won't be available outside of it, anyway.
+
     return this
 }
 
-let createTimeOutEvent = function (date) {
-    let timeOutEvent = {}
-    timeOutEvent.type = "TimeOut"
-    timeOutEvent.hour = parseInt(date.split(' ')[1])
-    timeOutEvent.date = date.split(' ')[0]
-    this.timeOutEvents.push(timeOutEvent)
+let createTimeOutEvent = function (dateStamp) {
+    let [date, hour] = dateStamp.split(' ')
+
+    this.timeOutEvents.push({
+        type: "TimeOut",
+        hour: parseInt(hour, 10),
+        date: date
+    }) 
+
     return this
 }
 
 let hoursWorkedOnDate = function (date) {
     let timeIn = this.timeInEvents.filter(t => t.date === date)[0]
     let timeOut = this.timeOutEvents.filter(t => t.date === date)[0]
-    let hoursWorked = (timeOut.hour - timeIn.hour) / 100
-    return hoursWorked
+    return (timeOut.hour - timeIn.hour) / 100
 }
 
 
