@@ -80,7 +80,7 @@ function calculatePayroll(employees) {
         return payroll += allWagesFor.call(employee)
         // seems redundant because of implicit returns in Ruby, but you have to return in here, too, so the parent function has a value to return
     }, 0)
-    // before, I forgot to set the initVal to 0, so it was the first object in the array, which was messing up my math and getting the function to return undefined (because you can't add objects and numbers)
+    // before, I forgot to set the initVal to 0, so it (initVal) was the first object in the array, which was messing up my math and getting the function to return undefined (because you can't add objects and numbers)
 }
 
 function findEmployeeByFirstName(employees, firstName) {
